@@ -19,7 +19,6 @@ class Node:
     """
     переменная, считающая количество экзепляров класса
     """
-
     def __init__(self, value='&'):
         Node._counter += 1
         if value in ('+', '&'):
