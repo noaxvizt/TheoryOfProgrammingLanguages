@@ -1,3 +1,8 @@
+from src.State import State
+import networkx as nx
+import matplotlib.pyplot as plt
+
+
 class NFA:
     """
     Класс недетерминированного конечного автомата
@@ -37,8 +42,8 @@ class NFA:
         """
         self.letters.union(other.letters)
         self.letters.add('eps')
-        for state in other.data:
-            self.data[state] = other.data[state]  # добавляем все состояния из другого в исходный
+        for key, value in other.data.items():
+            self.data[key] = value  # добавляем все состояния из другого в исходный
         if self.finish_state not in self.data:
             self.data[self.finish_state] = dict()
         if 'eps' not in self.data[self.finish_state]:
@@ -46,7 +51,6 @@ class NFA:
         self.data[self.finish_state]['eps'].append(other.start_state)
         self.finish_state.cancel_token()
         self.finish_state = other.finish_state
-        del other
 
     def add(self, other):
         """
@@ -55,12 +59,12 @@ class NFA:
         другой автомат будет удален после завершения исполнения функции
         :param other: принадлежит классу NFA
         """
-        self.letters.union(other.letter)
+        self.letters.union(other.letters)
         self.letters.add('eps')
         new_start_state = State(None)
         new_finish_state = State(None)
-        for key in other.data:
-            self.data[key] = other.data[key]
+        for key, value in other.data.items():
+            self.data[key] = value
         self.data[new_start_state] = dict()
         self.data[new_start_state]['eps'] = []
         self.data[new_start_state]['eps'].append(self.start_state)
@@ -80,7 +84,7 @@ class NFA:
         other.finish_state.cancel_token()
         self.finish_state = new_finish_state
 
-    def iteration(self):
+    def iterate(self):
         """
         Делает итерацию автомата
         результат остается в исходном автомате
@@ -88,6 +92,7 @@ class NFA:
         self.letters.add('eps')
         new_start_state = State(None)
         new_finish_state = State(None)
+        self.data[new_start_state] = dict()
         self.data[new_start_state]['eps'] = []
         self.data[new_start_state]['eps'].append(self.start_state)
         self.data[new_start_state]['eps'].append(new_finish_state)
@@ -96,7 +101,20 @@ class NFA:
         if 'eps' not in self.data[self.finish_state]:
             self.data[self.finish_state]['eps'] = []
         self.data[self.finish_state]['eps'].append(new_finish_state)
-        self.data[self.finish_state]['eps'].appned(self.start_state)
+        self.data[self.finish_state]['eps'].append(self.start_state)
         self.start_state = new_start_state
         self.finish_state.cancel_token()
         self.finish_state = new_finish_state
+
+    def visualise(self):
+        self.NFAGraph = nx.Graph()
+        self.edges = dict()
+        for key in self.data:
+            for letter in self.data[key]:
+                for key1 in self.data[key][letter]:
+                    self.edges[(str(hash(key)), str(hash(key1)))] = letter
+        self.NFAGraph.add_edges_from(list(self.edges.keys()))
+        pos = nx.circular_layout(self.NFAGraph)
+        nx.draw(self.NFAGraph, pos, with_labels=True)
+        nx.draw_networkx_edge_labels(self.NFAGraph, pos, edge_labels=self.edges)
+        plt.show()

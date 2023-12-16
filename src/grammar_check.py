@@ -1,6 +1,3 @@
-from src.RegularExpression import RegularExpression
-
-
 def grammar_check(expression):
     """
     :param expression: String

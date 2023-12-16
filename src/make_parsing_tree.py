@@ -2,7 +2,7 @@ from src.Node import Node
 from src.RegularExpression import RegularExpression
 
 
-def make_parsing_tree(regular_expression):
+def make_parsing_tree(expression):
     """
     Функция, которая из регулярного выражения собирает дерево разбора
     :param regular_expression: RegularExpression - регулярное выражение, принимаемое на вход
@@ -15,7 +15,6 @@ def make_parsing_tree(regular_expression):
     3)() выделение в скобки или ()* - итерация
     """
 
-    expression = regular_expression.expression
     """
     0) Проверка на букву
     """
@@ -34,7 +33,7 @@ def make_parsing_tree(regular_expression):
             node = Node('+')
             node.left = make_parsing_tree(expression[:index])
             node.right = make_parsing_tree(expression[index + 1:])
-            return Node
+            return node
     """
     2) Проверка на конкатенацию
     """

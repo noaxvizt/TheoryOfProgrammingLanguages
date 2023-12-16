@@ -21,6 +21,8 @@ class Node:
     """
     def __init__(self, value='&'):
         Node._counter += 1
+        self.value = value
+        self.type = ''
         if value in ('+', '&'):
             self.type = 'b'
             self.left = None

@@ -9,7 +9,9 @@ class RegularExpression:
         """
         :param expression: String
         """
-        if grammar_check(expression):
-            self.expression = expression
-        else:
+        try:
+            grammar_check(expression)
+        except SyntaxError:
             self.expression = ''
+        else:
+            self.expression = expression
