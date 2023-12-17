@@ -19,8 +19,8 @@ class State:
             self.token_name = token_name
         else:
             self.receiving = False
-        State._counter += 1
         self.counter = int(State._counter)
+        State._counter += 1
 
     def get_token(self):
         """
@@ -49,3 +49,8 @@ class State:
     def __eq__(self, other):
         return self.counter == other.counter
 
+
+class DFAState(State):
+    def __init__(self, value, token_name=None):
+        self.value = value
+        super().__init__(token_name)
