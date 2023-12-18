@@ -45,14 +45,25 @@ class DFA:
         """
         Функция добавляет информацию о токенах в состояния ДКА
         :param finish_states_NFA: list
+        binary_finish_states_NFA - словарь, где ключ - идентификатор состояния в двоичной системе,
+        токен - имя токена
         """
-        pass
+        binary_finish_states_NFA = dict()
+        binary_finish_state = 0
+        for index_state, token in finish_states_NFA:
+            binary_finish_states_NFA[1 << index_state] = token
+            binary_finish_state |= 1 << index_state
+        for state in self.data.keys():
+            if state.value & binary_finish_state:
+                state.assign_token(binary_finish_states_NFA[state.value & binary_finish_state])
 
     def visualise(self):
         """
         Выводит графическое представление графа
         """
         print("Стартовая вершина", hash(self.start_state))
+        for state in self.data:
+            print(state.counter, state.token_name)
         self.NFAGraph = nx.DiGraph(directed=True)
         self.edges = dict()
         for state in self.data:
@@ -64,5 +75,3 @@ class DFA:
         nx.draw(self.NFAGraph, pos, with_labels=True)
         nx.draw_networkx_edge_labels(self.NFAGraph, pos, edge_labels=self.edges)
         plt.show()
-
-

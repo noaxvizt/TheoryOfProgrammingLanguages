@@ -52,5 +52,6 @@ class State:
 
 class DFAState(State):
     def __init__(self, value, token_name=None):
-        self.value = value
         super().__init__(token_name)
+        self.value = value
+        self.assign_token(token_name)
