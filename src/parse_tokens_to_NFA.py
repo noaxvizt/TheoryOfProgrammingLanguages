@@ -1,5 +1,5 @@
 from src.State import State
-from src.reg_to_NFA import regex_to_nfa
+from src.move_regular_expression_to_NFA import move_regular_expression_to_NFA
 from src.RegularExpression import RegularExpression
 
 
@@ -18,7 +18,7 @@ def parse_tokens_to_NFA(tokens):
     ERROR_STATE = State('ERROR')
     finish_states_NFA.append((ERROR_STATE.counter, ERROR_STATE.token_name))
     for (token, regex) in tokens:
-        current_nfa = regex_to_nfa((RegularExpression(regex)))
+        current_nfa = move_regular_expression_to_NFA((RegularExpression(regex)))
         current_nfa.finish_state.assign_token(token)
         if current_nfa.finish_state not in current_nfa.data:
             current_nfa.data[current_nfa.finish_state] = dict()

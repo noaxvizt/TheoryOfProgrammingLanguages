@@ -2,7 +2,7 @@ from src.make_parsing_tree import make_parsing_tree
 from src.make_NFA_from_parsing_tree import make_NFA_from_parsing_tree
 
 
-def regex_to_nfa(regular_expression):
+def move_regular_expression_to_NFA(regular_expression):
     """
     Функция строит и возвращает НКА по регулярному выражению
     :param regular_expression: RegularExpression - регулярное выражение

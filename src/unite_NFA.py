@@ -1,4 +1,4 @@
-def union_NFA(tokens_NFA):
+def unite_NFA(tokens_NFA):
     """
     Функция, которая объединяет НКА распознающая токены в один
     :param tokens_NFA: список НКА, распознающих токены

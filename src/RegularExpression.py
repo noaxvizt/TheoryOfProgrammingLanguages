@@ -1,4 +1,4 @@
-from src.grammar_check import grammar_check
+from src.check_grammar import grammar_check
 
 
 class RegularExpression:
