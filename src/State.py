@@ -44,13 +44,23 @@ class State:
         self.token_name = None
 
     def __hash__(self):
+        """
+        Хеширует строку
+        """
         return self.counter
 
     def __eq__(self, other):
+        """
+        Проверка на равенство двух экземпляров
+        """
         return self.counter == other.counter
 
 
 class DFAState(State):
+    """
+    Класс состояния ДКА, наследуется от класса состояний
+    Расширен полем value
+    """
     def __init__(self, value, token_name=None):
         super().__init__(token_name)
         self.value = value
